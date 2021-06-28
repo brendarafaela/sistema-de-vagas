@@ -1,0 +1,105 @@
+<link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+/>
+
+{% include "base/menu.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1></h1>
+            <h1>
+                Candidatar a Vaga: {{ vaga.nomeVaga }}
+            </h1>
+
+            <br/>
+
+            <h4>Informações da Vaga</h4>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Faixa Salarial</th>
+                    <th scope="col">Escolaridade Mínima</th>
+                    <th scope="col">Data de Cadastro</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ vaga.get_faixaSalario_display }}</td>
+                    <td>{{ vaga.get_escolaridadeMinima_display }}</td>
+                    <td>{{ vaga.dataCadastro }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <br/>
+
+            <h4>Requisitos</h4>
+
+            <div style="display: block; white-space: pre;">{{ vaga.requisitos }}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="offset-md-3 col-md-6">
+            <form method="post" action="/vagas/candidatar/{{id_vaga}}">
+                {% csrf_token %}
+
+                <br />
+                <h1></h1>
+                <h2>Se candidatar à vaga</h2>
+
+                {% if erro %}
+                <div class="alert alert-danger" role="alert">
+                    <b>Erros:</b>
+                    <span>{{ erro }}</span>
+                </div>
+                {% endif %}
+
+                {% if sucesso %}
+                <div class="alert alert-success" role="alert">
+                    <b>Mensagem:</b>
+                    <span>{{ sucesso }}</span>
+                </div>
+                {% endif %}
+
+                {% if formulario.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <b>Erros:</b>
+                    <span>{{ formulario.errors }}</span>
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="pretensaoSalario">Pretensão Salarial</label>
+                    <select id="pretensaoSalario" name='pretensaoSalario' class="form-control">
+                        {% for value, text in opcoesPretensao %}
+                        <option value="{{ value }}">{{ text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ultimaEscolaridade">Escolaridade</label>
+                    <select id="ultimaEscolaridade" name='ultimaEscolaridade' class="form-control">
+                        {% for value, text in opcoesEscolaridade %}
+                        <option value="{{ value }}">{{ text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                 <div class="form-group">
+                    <label for="experiencia">Experiência</label>
+                    <textarea name='experiencia' class="form-control" id="experiencia" placeholder="Escreva as suas Últimas Experiências" style="min-height:50px;"></textarea>
+                 </div>
+
+                <button type="submit" class="btn btn-primary">Enviar</button>
+              </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.0/dist/chart.min.js"></script>
+
+{% include "base/menu.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1></h1>
+            <h1 class="text-center">
+                Relatórios
+            </h1>
+            <br/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="offset-md-3 col-md-6">
+            {{ vagasCriadas|date:"M"  }}
+            <canvas id="myChart" width="400" height="200"></canvas>
+            <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+           var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% for vaga in vagasCriadas %}
+                        '{{ vaga.month|date:"M"  }}',
+                        {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Vagas Criadas por Mês',
+                        data: [
+                            {% for vaga in vagasCriadas %}
+                            '{{ vaga.c }}',
+                            {% endfor %}
+                        ],
+                        backgroundColor: [
+                            'rgba(231, 76, 60, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(231, 76, 60, 1)',
+                        ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Candidatos Recebidos por Mês',
+                        data: [
+                            {% for aplicada in vagasAplicadas %}
+                            '{{ aplicada.c }}',
+                            {% endfor %}
+                        ],
+                        backgroundColor: [
+                            'rgba(52, 152, 219, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(52, 152, 219, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            </script>
+        </div>
+    </div>
+
+    <br/>
+</div>

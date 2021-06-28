@@ -1,0 +1,52 @@
+<link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+/>
+
+{% include "base/menu.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1></h1>
+            <h1>
+                Candidaturas para a vaga: {{ vaga.nomeVaga }}
+            </h1>
+
+            <br />
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Candidato</th>
+                    <th scope="col">Pretensão Salarial</th>
+                    <th scope="col">Experiência</th>
+                    <th scope="col">Última Escolaridade</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cand in candidaturas %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ cand.usuario.nome }}</td>
+                    <td>{{ cand.get_pretensaoSalario_display }}</td>
+                    <td>{{ cand.experiencia }}</td>
+                    <td>{{ cand.get_ultimaEscolaridade_display }}</td>
+                </tr>
+                {% endfor %}
+
+                {% if candidaturas|length == 0 %}
+                <tr>
+                    <th colspan="6" scope="row">
+                        <h5 class="text-center">Sem candidaturas no momento para esta vaga.</h5>
+                    </th>
+                </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

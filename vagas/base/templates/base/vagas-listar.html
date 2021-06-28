@@ -1,0 +1,82 @@
+<link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+/>
+
+{% include "base/menu.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1></h1>
+            <h1>
+                Vagas
+                {% if usuario_tipo == 0 %}
+                <a href="/vagas/cadastrar" class="btn btn-success">Cadastrar Vaga</a>
+                {% endif %}
+            </h1>
+
+            <br />
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Faixa Salarial</th>
+                    <th scope="col">Escolaridade Mínima</th>
+                    <th scope="col">Data de Cadastro</th>
+
+                    {% if usuario_tipo == 0 %}
+                    <th scope="col">QTD de Candidatos</th>
+                    {% endif %}
+
+                    <th scope="col">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for vaga in vagas %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ vaga.nomeVaga }}</td>
+                    <td>{{ vaga.get_faixaSalario_display }}</td>
+                    <td>{{ vaga.get_escolaridadeMinima_display }}</td>
+                    <td>{{ vaga.dataCadastro}}</td>
+
+                    {% if usuario_tipo == 0 %}
+                        {% with keyPai=forloop.counter0 %}
+                        <td>
+                            {% for cand in vagasCandidaturas %}
+                            {% if keyPai == forloop.counter0 %}
+                                <a href="/vagas/candidaturas/{{ vaga.id }}" class="btn btn-info">{{ cand }}</a>
+                            {% endif %}
+                            {% endfor %}
+                        </td>
+                        {% endwith %}
+                    {% endif %}
+
+                    <td>
+                        {% if usuario_tipo == 0 %}
+                        <a href="/vagas/editar/{{ vaga.id }}" class="btn btn-success">Editar Vaga</a>
+                        <a href="/vagas/excluir/{{ vaga.id }}" class="btn btn-danger">Excluir Vaga</a>
+                        {% else %}
+                        <a href="/vagas/candidatar/{{ vaga.id }}" class="btn btn-success">Candidatar à Vaga</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+
+                {% if vagas|length == 0 %}
+                <tr>
+                    <th colspan="6" scope="row">
+                        <h5 class="text-center">No momento não temos vagas disponíveis.</h5>
+                    </th>
+                </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+<link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+/>
+
+{% include "base/menu.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1></h1>
+            <h1 class="text-center">
+                Cadastrar Vagas
+            </h1>
+            <br/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="offset-md-3 col-md-6">
+            <form method="post" action="/vagas/cadastrar">
+                {% csrf_token %}
+
+                {% if erro %}
+                <div class="alert alert-danger" role="alert">
+                    <b>Erros:</b>
+                    <span>{{ erro }}</span>
+                </div>
+                {% endif %}
+
+                {% if sucesso %}
+                <div class="alert alert-success" role="alert">
+                    <b>Mensagem:</b>
+                    <span>{{ sucesso }}</span>
+                </div>
+                {% endif %}
+
+                {% if formulario.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <b>Erros:</b>
+                    <span>{{ formulario.errors }}</span>
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="nomeVaga">Nome da Vaga</label>
+                    <input type="text" name='nomeVaga' class="form-control" id="nomeVaga"
+                           placeholder="Coloque o nome da vaga">
+                </div>
+
+                <div class="form-group">
+                    <label for="requisitos">Requisitos</label>
+                    <textarea name='requisitos' class="form-control" id="requisitos"
+                              placeholder="Escreva os requisitos da vaga" style="min-height:50px;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="faixaSalario">Faixa Salarial</label>
+                    <select id="faixaSalario" name='faixaSalario' class="form-control">
+                        {% for value, text in opcoesPretensao %}
+                        <option value="{{ value }}">{{ text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="escolaridadeMinima">Escolaridade Mínima</label>
+                    <select id="escolaridadeMinima" name='escolaridadeMinima' class="form-control">
+                        {% for value, text in opcoesEscolaridade %}
+                        <option value="{{ value }}">{{ text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>

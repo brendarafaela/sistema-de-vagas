@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<div class="container">
+    <div class="row">
+        <div class="offset-md-3 col-md-6">
+            <form method="post" action="/login">
+                {% csrf_token %}
+
+                <h1></h1>
+                <h1>Entrar</h1>
+
+                {% if erro %}
+                <div class="alert alert-danger" role="alert">
+                    <b>Erros:</b>
+                    <span>{{ erro }}</span>
+                </div>
+                {% endif %}
+
+                {% if formulario.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <b>Erros:</b>
+                    <span>{{ formulario.errors }}</span>
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" name='email' class="form-control" id="email" aria-describedby="emailHelp" placeholder="Entre com o e-mail">
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" name='senha' class="form-control" id="senha" placeholder="Entre com a senha">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+
+            <a href="/cadastro" class="btn btn-success">Crie sua conta</a>
+        </div>
+    </div>
+</div>
